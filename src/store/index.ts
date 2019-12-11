@@ -7,7 +7,10 @@ import { LayoutState, layoutReducer } from './layout'
 
 import heroesSaga from './heroes/sagas'
 import { heroesReducer } from './heroes/reducer'
+import { eventsReducer } from './events/reducer'
+import {EventsState} from "./events/types";
 import { HeroesState } from './heroes/types'
+import eventsSaga from "./events/sagas";
 import teamsSaga from './teams/sagas'
 import { TeamsState } from './teams/types'
 import { teamsReducer } from './teams/reducer'
@@ -15,6 +18,7 @@ import { teamsReducer } from './teams/reducer'
 // The top-level state object
 export interface ApplicationState {
   layout: LayoutState
+  events: EventsState
   heroes: HeroesState
   teams: TeamsState
   router: RouterState
@@ -26,14 +30,15 @@ export interface ApplicationState {
 export const createRootReducer = (history: History) =>
   combineReducers({
     layout: layoutReducer,
+    events: eventsReducer,
     heroes: heroesReducer,
     teams: teamsReducer,
     router: connectRouter(history)
-  })
+  });
 
 // Here we use `redux-saga` to trigger actions asynchronously. `redux-saga` uses something called a
 // "generator function", which you can read about here:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
 export function* rootSaga() {
-  yield all([fork(heroesSaga), fork(teamsSaga)])
+  yield all([fork(heroesSaga), fork(teamsSaga), fork(eventsSaga)])
 }

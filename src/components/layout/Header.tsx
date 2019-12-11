@@ -1,114 +1,263 @@
-import * as React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from '../../utils/styled'
-import LayoutContainer from '../../containers/LayoutContainer'
-import Container from './Container'
+import React from 'react';
+import {Link} from "react-router-dom";
+import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {
+  Menu,
+  Button,
+  MenuItem,
+  Badge,
+  InputBase,
+  Typography,
+  IconButton,
+  Toolbar,
+  AppBar
+} from "@material-ui/core";
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
-interface HeaderProps {
-  title: string
+
+interface IProps {
+  title: string;
 }
 
-const Wrapper = styled('header')`
-  padding: 0.5rem 1.5rem;
-  background-color: ${props => props.theme.colors.brand};
-  color: ${props => props.theme.colors.white};
-  font-family: ${props => props.theme.fonts.headings};
-`
+export default function PrimaryAppBar(props: IProps) {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
-const HeaderInner = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  @media (min-width: ${props => props.theme.breakpoints.lg}) {
-    flex-direction: row;
-  }
-`
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-const HeaderLeft = styled('div')`
-  padding-right: 1rem;
-`
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
 
-const HeaderNav = styled('nav')`
-  flex: 1 1 auto;
-  margin: 1rem 0;
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
-  @media (min-width: ${props => props.theme.breakpoints.lg}) {
-    margin: 0;
-  }
-`
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
-const HeaderNavLink = styled(NavLink)`
-  margin: 0 1rem;
+  const menuId = 'primary-search-account-menu';
 
-  &.is-active {
-    text-decoration: underline;
-  }
-`
+  const mainMenu = (
+    <>
+      <MenuItem>
+        <Link to="/">Home</Link>
+      </MenuItem>
+      <MenuItem>
+        <Link to="/dashboard">Dashboard</Link>
+      </MenuItem>
+      <MenuItem>
+        <Link to="/events">Events</Link>
+      </MenuItem>
+    </>
+  );
 
-const HeaderRight = styled('div')`
-  padding-left: 1rem;
-`
+  const searchBar = (
+    <div className={classes.search}>
+      <div className={classes.searchIcon}>
+        <SearchIcon />
+      </div>
+      <InputBase
+        placeholder="Search…"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        inputProps={{ 'aria-label': 'search' }}
+      />
+    </div>
+  );
 
-const Title = styled('h2')`
-  margin: 0;
-  font-weight: 500;
-`
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
-const CurrentTheme = styled('span')`
-  margin-right: 1rem;
-`
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
 
-const ThemeSwitcherButton = styled('button')`
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid ${props => props.theme.colors.white};
-  border-radius: 3px;
-  background-color: ${props => props.theme.colors.white};
-  color: ${props => props.theme.colors.brand};
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  return (
+    <div className={classes.grow}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.title} variant="h6" noWrap>
+            { props.title }
+          </Typography>
+          {mainMenu}
+          <div className={classes.grow} />
+          <Button variant="contained" color="secondary">
+            <Link to='/events/create'>Create Event</Link>
+          </Button>
+          <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </div>
+  );
+}
 
-  &:hover,
-  &:focus {
-    background-color: transparent;
-    color: ${props => props.theme.colors.white};
-  }
-`
-
-const Header: React.SFC<HeaderProps> = ({ title }) => (
-  <Wrapper>
-    <HeaderInner>
-      <HeaderLeft>
-        <Title>{title}</Title>
-      </HeaderLeft>
-      <HeaderNav>
-        <HeaderNavLink exact to="/" activeClassName="is-active">
-          Home
-        </HeaderNavLink>
-        <HeaderNavLink to="/heroes" activeClassName="is-active">
-          Heroes
-        </HeaderNavLink>
-        <HeaderNavLink to="/teams" activeClassName="is-active">
-          Teams
-        </HeaderNavLink>
-      </HeaderNav>
-      <HeaderRight>
-        <LayoutContainer>
-          {({ theme, setTheme }) => (
-            <>
-              <CurrentTheme>Current theme: {theme}</CurrentTheme>
-              <ThemeSwitcherButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>Switch theme</ThemeSwitcherButton>
-            </>
-          )}
-        </LayoutContainer>
-      </HeaderRight>
-    </HeaderInner>
-  </Wrapper>
-)
-
-export default Header
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    grow: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
+      },
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+      },
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+      },
+    },
+    searchIcon: {
+      width: theme.spacing(7),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 7),
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: 200,
+      },
+    },
+    sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+    },
+    sectionMobile: {
+      display: 'flex',
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+  }),
+);

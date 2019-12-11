@@ -42,7 +42,7 @@ const Wrapper = styled('table')`
     tr {
       border-top: 1px solid ${props => props.theme.colors.borders};
 
-      &:nth-child(even) {
+      &:nth-of-type(even) {
         background: ${props => props.theme.colors.tableOdd};
       }
 

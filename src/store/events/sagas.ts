@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
-import { HeroesActionTypes } from './types'
+import { EventsActionTypes } from './types'
 import { fetchError, fetchSuccess } from './actions'
 import { callApi } from '../../utils/api'
 
@@ -27,12 +27,12 @@ function* handleFetch() {
 // This is our watcher function. We use `take*()` functions to watch Redux for a specific action
 // type, and run our saga, for example the `handleFetch()` saga above.
 function* watchFetchRequest() {
-  yield takeEvery(HeroesActionTypes.FETCH_REQUEST, handleFetch);
+  yield takeEvery(EventsActionTypes.FETCH_REQUEST, handleFetch)
 }
 
 // We can also use `fork()` here to split our saga into multiple watchers.
-function* heroesSaga() {
+function*eventsSaga() {
   yield all([fork(watchFetchRequest)])
 }
 
-export default heroesSaga
+export default eventsSaga

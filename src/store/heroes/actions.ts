@@ -8,5 +8,5 @@ export const fetchRequest = () => action(HeroesActionTypes.FETCH_REQUEST)
 
 // Remember, you can also pass parameters into an action creator. Make sure to
 // type them properly as well.
-export const fetchSuccess = (data: Hero[]) => action(HeroesActionTypes.FETCH_SUCCESS, data)
-export const fetchError = (message: string) => action(HeroesActionTypes.FETCH_ERROR, message)
+export const fetchSuccess = (data: Hero[]) => action(HeroesActionTypes.FETCH_SUCCESS, data);
+export const fetchError = (message: string) => action(HeroesActionTypes.FETCH_ERROR, message);

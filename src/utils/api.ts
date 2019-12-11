@@ -5,6 +5,6 @@ export async function callApi(method: string, url: string, path: string, data?: 
       Accept: 'application/json'
     },
     body: JSON.stringify(data)
-  })
+  });
   return res.json()
 }
