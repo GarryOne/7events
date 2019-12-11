@@ -28,7 +28,8 @@
     "typeface-ibm-plex-mono": "^0.0.61",
     "typeface-ibm-plex-sans": "^0.0.75",
     "typesafe-actions": "^4.4.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.1.1",
+    "typescript": "~3.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -67,7 +68,6 @@
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-jest": "^22.16.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "prettier": "^1.18.2",
-    "typescript": "~3.5.3"
+    "prettier": "^1.18.2"
   }
 }
