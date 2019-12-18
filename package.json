@@ -20,6 +20,7 @@
     "emotion-theming": "^10.0.14",
     "firebase": "^7.6.0",
     "formik": "^2.0.7",
+    "express": "^4.17.1",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -30,6 +31,7 @@
     "react-redux": "^7.1.1",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.1",
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.5",
     "redux-saga": "^1.0.5",
@@ -37,6 +39,7 @@
     "typeface-ibm-plex-mono": "^0.0.61",
     "typeface-ibm-plex-sans": "^0.0.75",
     "typesafe-actions": "^4.4.2",
+    "typescript": "~3.5.3",
     "yup": "^0.27.0"
   },
   "scripts": {
@@ -45,7 +48,8 @@
     "now-build": "npm run build",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "node server.js"
   },
   "browserslist": {
     "development": [
@@ -77,7 +81,6 @@
     "eslint-plugin-jest": "^22.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.18.2",
-    "react-scripts": "^3.1.1",
-    "typescript": "~3.5.3"
+    "react-scripts": "^3.1.1"
   }
 }
