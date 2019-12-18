@@ -8,6 +8,7 @@ import IndexPage from './pages/index'
 import DashboardPage from './pages/dashboard'
 import TeamsPage from './pages/teams'
 import EventsPage from './pages/events'
+import ViewEventPage from './pages/events/view'
 import normalize from './styles/normalize'
 import globals from './styles/globals'
 
@@ -30,6 +31,7 @@ const Routes: React.SFC = () => (
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/teams" component={TeamsPage} />
       <Route path="/events" component={EventsPage} />
+      <Route path="/event/:id" component={ViewEventPage} />
       <Route component={() => <div>Not Found</div>} />
     </Switch>
   </Root>

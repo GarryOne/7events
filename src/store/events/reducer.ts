@@ -18,8 +18,17 @@ const reducer: Reducer<EventsState> = (state = initialState, action) => {
     case EventsActionTypes.FETCH_SUCCESS: {
       return { ...state, loading: false, data: action.payload }
     }
+    case EventsActionTypes.SYNC_COLLECTION: {
+      return { ...state, loading: false, data: action.payload }
+    }
     case EventsActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, errors: action.payload }
+    }
+    case EventsActionTypes.ADD_EVENT: {
+      return { ...state, loading: false, data: action.payload }
+    }
+    case EventsActionTypes.FETCH_EVENT: {
+      return { ...state, loading: false, data: action.payload }
     }
     default: {
       return state

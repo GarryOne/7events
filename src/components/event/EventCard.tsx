@@ -9,68 +9,71 @@ import {
   Avatar,
   IconButton,
   Button,
+  Grid,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RoomIcon from '@material-ui/icons/Room';
 import { Event } from "../../store/events/types";
+import moment from 'moment';
 
 interface IProps {
-  event?: Event;
+  event: Event;
 }
 
 export default function EventCard(props: IProps) {
+  const [event, setEvent] = React.useState<Event | null>(null);
   const classes = useStyles();
 
-  return (
-    <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+  React.useEffect(() => {
+    setEvent(props.event);
+  }, [props.event]);
+
+  return props.event && (
+    <Grid item md={3} sm={6} xs={12}>
+      <Card>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={event && event.name}
+          subheader={event && moment(event.date.dateTimeFrom).format('LL')}
+        />
+        <CardMedia
+          className={classes.media}
+          image="/static/images/cards/paella.jpg"
+          title="Paella dish"
+        />
+        <CardContent>
+          <div className={classes.eventLocation}>
+            <RoomIcon/>
+            <span className={classes.eventLocationText}>{event && event.location}</span>
+          </div>
+        </CardContent>
+        <CardActions className={classes.eventCardActions} disableSpacing>
+          <Button variant="contained" color="primary">Going</Button>
+          <IconButton
+            className={classes.watchEvent}
+            aria-label="add to favorites"
+          >
+            <FavoriteIcon color="secondary" />
           </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
-      />
-      <CardContent>
-        <div className={classes.eventLocation}>
-          <RoomIcon/>
-          <span className={classes.eventLocationText}>Cluj-Napoca, Romania</span>
-        </div>
-      </CardContent>
-      <CardActions className={classes.eventCardActions} disableSpacing>
-        <Button variant="contained" color="primary">Going</Button>
-        <IconButton
-          className={classes.watchEvent}
-          aria-label="add to favorites"
-        >
-          <FavoriteIcon color="secondary" />
-        </IconButton>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+    </Grid>
   );
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    card: {
-      minWidth: '30%',
-      maxWidth: '100%',
-      float: 'left',
-      margin: '15px 15px 0 0',
-    },
     media: {
       height: 0,
       paddingTop: '40%', // 16:9

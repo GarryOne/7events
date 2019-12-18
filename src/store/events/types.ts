@@ -1,19 +1,21 @@
-// This file holds our state type, as well as any other types related to this Redux store.
 
-// Response object for GET /heroes
-// https://docs.opendota.com/#tag/heroes%2Fpaths%2F~1heroes%2Fget
+interface EventDateTime {
+  dateTimeFrom: string;
+  dateTimeTo: string;
+}
+
 export interface Event extends ApiResponse {
   id?: number
   name: string
   creator: string
-  date: string
+  date: EventDateTime
   location: string
-  state: string
-  price: string
+  eventType: string
+  price?: string
   categories: string[]
   description: string
-  people_attending: number
-  rating: string
+  people_attending?: number
+  rating?: string
 }
 
 // This type is basically shorthand for `{ [key: string]: any }`. Feel free to replace `any` with
@@ -29,9 +31,10 @@ export type ApiResponse = Record<string, any>
 export enum EventsActionTypes {
   FETCH_REQUEST = '@@events/FETCH_REQUEST',
   FETCH_SUCCESS = '@@events/FETCH_SUCCESS',
+  SYNC_COLLECTION = '@@events/SYNC_COLLECTION',
   FETCH_ERROR = '@@events/FETCH_ERROR',
-  SELECT_HERO = '@@events/SELECT_HERO',
-  SELECTED = '@@events/SELECTED'
+  ADD_EVENT = '@@events/ADD_EVENT',
+  FETCH_EVENT = '@@events/FETCH_EVENT',
 }
 
 // Declare state types with `readonly` modifier to get compile time immutability.

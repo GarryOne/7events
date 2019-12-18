@@ -1,14 +1,11 @@
-import * as React from 'react';
-import firebase from 'firebase';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { ApplicationState } from '../../store';
 import { Event } from '../../store/events/types';
 import { fetchRequest } from '../../store/events/actions';
 import EventCard from '../../components/event/EventCard';
-import Page from "../../components/layout/Page";
-import { Container } from "@material-ui/core";
-import { useEffect } from 'react';
+import { Container, Grid } from "@material-ui/core";
 
 // Separate state props + dispatch props to their own interfaces.
 interface PropsFromState {
@@ -27,31 +24,19 @@ type AllProps = PropsFromState & PropsFromDispatch
 
 const EventsIndexPage = (props: AllProps) => {
 
-  useEffect(() => {
-    componentDidMount();
-  });
+  React.useEffect(() => {
+    if(!props.data || props.data.length === 0) {
+      props.fetchRequest();
+    }
+  }, []);
 
-  const componentDidMount = () => {
-    firebase
-      .firestore()
-      .collection('events')
-      .onSnapshot(eventsListUpdated => {
-        const events = eventsListUpdated.docs.map(_doc => {
-          return _doc.data();
-        });
-        console.log(events);
-      })
-  };
   return (
-    <Page>
-      <Container>
-       <h3>Events Page</h3>
-       <EventCard/>
-       <EventCard/>
-       <EventCard/>
-       <EventCard/>
-      </Container>
-    </Page>
+    <Container>
+      <h3>Events Page</h3>
+      <Grid container spacing={3}>
+        {(props.data && props.data.length > 0) && props.data.map((event, index) => <EventCard key={index} event={event}/>) }
+      </Grid>
+    </Container>
   )
 };
 
