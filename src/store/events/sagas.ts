@@ -9,7 +9,12 @@ function* syncEvents () {
   yield fork( rsf.firestore.syncCollection, 'events',
     {
       successActionCreator: (data: any )=> {
-        const events = data.docs.map((document: any) => document.data());
+        const events = data.docs.map((document: any) => {
+          return {
+            ...document.data(),
+            id: document.id,
+          }
+        });
         return syncCollection(events);
       },
     }
@@ -17,7 +22,7 @@ function* syncEvents () {
 }
 
 function* createEvent(data: any): any {
-  yield call(rsf.firestore.addDocument, 'events', data.payload);
+  yield call(rsf.firestore.addDocument, 'events', { ...data.payload,  });
 }
 
 
@@ -36,10 +41,6 @@ function* watchSyncCollection() {
 function* watchAddEvent() {
   yield takeLatest(EventsActionTypes.ADD_EVENT, createEvent)
 }
-
-// function* watchFetchEvent() {
-//   yield takeLatest(EventsActionTypes.FETCH_EVENT, fetchEvent)
-// }
 
 // We can also use `fork()` here to split our saga into multiple watchers.
 function*eventsSaga() {

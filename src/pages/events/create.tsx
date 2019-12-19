@@ -9,6 +9,7 @@ import { Container, Button, TextField, FormControl, Chip, Grid, Paper, Select, I
 import DatePicker, { DatePickerOptions } from '../../components/common/DatePicker';
 import TimePicker from '../../components/common/TimePicker';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import ImageUpload from '../../components/common/ImageUpload';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import moment from "moment";
 
@@ -30,6 +31,7 @@ const INITIAL_FORM_VALUES = {
   timeTo: '',
   description: '',
   location: '',
+  imageUrl: '',
 };
 
 const dateFromOptions = (): DatePickerOptions => {
@@ -68,6 +70,7 @@ type AllProps = PropsFromState & PropsFromDispatch
 const CreateEventPage = (props: AllProps) => {
   const classes = useStyles();
   const [initialFormValues, setInitialFormValues] = React.useState(INITIAL_FORM_VALUES);
+  const [eventImageUrl, setEventImageUrl] = React.useState<string>('');
 
   React.useEffect(() => {
     setInitialFormValues({
@@ -83,6 +86,7 @@ const CreateEventPage = (props: AllProps) => {
 
   const createEvent = (values: any): Event => {
     return {
+      id: '',
       name: values.name,
       creator: 'admin',
       date: {
@@ -94,7 +98,13 @@ const CreateEventPage = (props: AllProps) => {
       price: 'free',
       categories: values.categories,
       description: values.description,
+      imageUrl: eventImageUrl,
     }
+  };
+
+  const getUploadedImage = (imageUrl: any): void => {
+    setEventImageUrl(imageUrl);
+    console.log(imageUrl);
   };
 
   return (
@@ -122,7 +132,11 @@ const CreateEventPage = (props: AllProps) => {
                     onSubmit={handleSubmit}
                   >
                     <Grid container spacing={3}>
+                      <Grid item md={12} sm={12} xs={12}>
 
+                        <ImageUpload onChange={getUploadedImage} imagesFolder='events-profile-images'/>
+
+                      </Grid>
                       <Grid item md={6} sm={6} xs={12}>
                         <FormControl className={classes.formControl}>
                           <TextField
@@ -213,6 +227,7 @@ const CreateEventPage = (props: AllProps) => {
                             options={{
                               label: 'Start time',
                               name: 'timeFrom',
+                              id: 'timeFrom'
                             }}
                           />
                         </FormControl>
@@ -239,6 +254,7 @@ const CreateEventPage = (props: AllProps) => {
                             options={{
                               label: 'End time',
                               name: 'timeTo',
+                              id: 'timeTo'
                             }}
                           />
                         </FormControl>
@@ -293,6 +309,9 @@ const mapDispatchToProps = {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    input: {
+      display: 'none',
+    },
     formControl: {
       // margin: theme.spacing(1),
       width: '100%',

@@ -20,6 +20,7 @@ import moment from 'moment';
 
 interface IProps {
   event: Event;
+  onClick?: () => void;
 }
 
 export default function EventCard(props: IProps) {
@@ -48,8 +49,9 @@ export default function EventCard(props: IProps) {
           subheader={event && moment(event.date.dateTimeFrom).format('LL')}
         />
         <CardMedia
+          onClick={() => props.onClick && props.onClick()}
           className={classes.media}
-          image="/static/images/cards/paella.jpg"
+          image={(event && event.imageUrl) || '/assets/images/image-placeholder.png'}
           title="Paella dish"
         />
         <CardContent>
@@ -74,7 +76,11 @@ export default function EventCard(props: IProps) {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    clickable: {
+      cursor: 'pointer',
+    },
     media: {
+      cursor: 'pointer',
       height: 0,
       paddingTop: '40%', // 16:9
     },

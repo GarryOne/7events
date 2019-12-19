@@ -12,6 +12,7 @@ interface PropsFromState {
   loading: boolean;
   data: Event[];
   errors?: string;
+  history: any;
 }
 
 // We can use `typeof` here to map our dispatch types to the props, like so.
@@ -34,7 +35,9 @@ const EventsIndexPage = (props: AllProps) => {
     <Container>
       <h3>Events Page</h3>
       <Grid container spacing={3}>
-        {(props.data && props.data.length > 0) && props.data.map((event, index) => <EventCard key={index} event={event}/>) }
+        {(props.data && props.data.length > 0) && props.data.map((event, index) => (
+          <EventCard key={index} event={event} onClick={() => props.history.push(`/event/${event.id}`)}/>
+        )) }
       </Grid>
     </Container>
   )

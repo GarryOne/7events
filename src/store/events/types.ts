@@ -5,17 +5,18 @@ interface EventDateTime {
 }
 
 export interface Event extends ApiResponse {
-  id?: number
+  id?: number | string
   name: string
   creator: string
   date: EventDateTime
   location: string
   eventType: string
-  price?: string
   categories: string[]
   description: string
+  price?: string
   people_attending?: number
   rating?: string
+  imageUrl?: string;
 }
 
 // This type is basically shorthand for `{ [key: string]: any }`. Feel free to replace `any` with
