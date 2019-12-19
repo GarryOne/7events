@@ -61,7 +61,7 @@ const ViewEventPage = (props: IProps) => {
             <Grid item md={6} sm={6} xs={12}>
               <img
                 src={event.imageUrl || '/assets/images/image-placeholder.png'}
-                width="100%"
+                width="400"
                 height="auto"
               />
             </Grid>
