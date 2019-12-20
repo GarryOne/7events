@@ -25,7 +25,7 @@ const reducer: Reducer<EventsState> = (state = initialState, action) => {
       return { ...state, loading: false, errors: action.payload }
     }
     case EventsActionTypes.ADD_EVENT: {
-      return { ...state, loading: false, data: action.payload }
+      return { ...state, loading: false, data: [...state.data, ...action.payload] }
     }
     case EventsActionTypes.FETCH_EVENT: {
       return { ...state, loading: false, data: action.payload }

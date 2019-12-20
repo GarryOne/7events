@@ -138,7 +138,7 @@ export default function PrimaryAppBar(props: IProps) {
   );
 
   return (
-    <div className={classes.grow}>
+    <>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -194,7 +194,7 @@ export default function PrimaryAppBar(props: IProps) {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </>
   );
 }
 

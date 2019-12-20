@@ -1,4 +1,6 @@
 import * as React from 'react'
+import * as themes from './styles/theme'
+
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
@@ -7,8 +9,8 @@ import { ThemeProvider } from 'emotion-theming'
 
 import Routes from './routes'
 import { ApplicationState } from './store'
-import LayoutContainer from './containers/LayoutContainer'
-import * as themes from './styles/theme'
+import LayoutContainer from './containers/LayoutContainer';
+import { saveState } from './localStorage';
 
 // Any additional component props go here.
 interface MainProps {
@@ -18,6 +20,11 @@ interface MainProps {
 
 // Create an intersection type of the component props and our Redux props.
 const Main: React.FC<MainProps> = ({ store, history }) => {
+
+  store.subscribe(() => {
+    saveState(store.getState());
+  });
+
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
