@@ -5,7 +5,6 @@ import { createBrowserHistory } from 'history'
 import Main from './main'
 import * as serviceWorker from './serviceWorker'
 import configureStore from './configureStore'
-import Firebase from './firebase';
 
 import 'typeface-ibm-plex-sans'
 
@@ -16,7 +15,6 @@ const history = createBrowserHistory()
 const initialState = window.INITIAL_REDUX_STATE
 const store = configureStore(history, initialState)
 
-new Firebase();
 
 ReactDOM.render(
     <Main store={store} history={history} />,

@@ -1,38 +1,50 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
+import { all, call, fork, put, takeEvery, takeLatest, take } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga'
 import { EventsActionTypes } from './types'
-import { fetchError, fetchSuccess } from './actions'
-import { callApi } from '../../utils/api'
+import { syncCollection, getEvent } from './actions'
+import rsf from '../../firebase/firebase';
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://api.opendota.com'
 
-function* handleFetch() {
-  try {
-    // To call async functions, use redux-saga's `call()`.
-    const res = yield call(callApi, 'get', API_ENDPOINT, '/heroStats')
-
-    if (res.error) {
-      yield put(fetchError(res.error))
-    } else {
-      yield put(fetchSuccess(res))
+function* syncEvents () {
+  yield fork( rsf.firestore.syncCollection, 'events',
+    {
+      successActionCreator: (data: any )=> {
+        const events = data.docs.map((document: any) => {
+          return {
+            ...document.data(),
+            id: document.id,
+          }
+        });
+        return syncCollection(events);
+      },
     }
-  } catch (err) {
-    if (err instanceof Error && err.stack) {
-      yield put(fetchError(err.stack))
-    } else {
-      yield put(fetchError('An unknown error occured.'))
-    }
-  }
+  );
 }
 
-// This is our watcher function. We use `take*()` functions to watch Redux for a specific action
-// type, and run our saga, for example the `handleFetch()` saga above.
-function* watchFetchRequest() {
-  yield takeEvery(EventsActionTypes.FETCH_REQUEST, handleFetch)
+function* createEvent(data: any): any {
+  yield call(rsf.firestore.addDocument, 'events', { ...data.payload,  });
+}
+
+
+// TODO: not working well
+function* fetchEvent(data: any): any {
+  const snapshot = yield call(rsf.firestore.getDocument, `events/${data.payload}`);
+  const event = snapshot.data();
+  console.log(event);
+  yield put(getEvent(event));
+}
+
+function* watchSyncCollection() {
+  yield takeEvery(EventsActionTypes.FETCH_REQUEST, syncEvents)
+}
+
+function* watchAddEvent() {
+  yield takeLatest(EventsActionTypes.ADD_EVENT, createEvent)
 }
 
 // We can also use `fork()` here to split our saga into multiple watchers.
 function*eventsSaga() {
-  yield all([fork(watchFetchRequest)])
+  yield all([fork(watchSyncCollection), fork(watchAddEvent)]);
 }
 
 export default eventsSaga
