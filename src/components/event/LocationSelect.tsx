@@ -45,7 +45,7 @@ interface PlaceType {
 export default function GoogleMaps() {
   const classes = useStyles();
   //TODO add to .env
-  const gmailApiKey = 'AIzaSyDEghbBwMptrjhaBo16TMRL3z4pK3UN438';
+  const gMapsApiKey = 'AIzaSyDEghbBwMptrjhaBo16TMRL3z4pK3UN438';
 
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<PlaceType[]>([]);
@@ -54,7 +54,7 @@ export default function GoogleMaps() {
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${gmailApiKey}&v=3.exp&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${gMapsApiKey}&v=3.exp&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
@@ -100,7 +100,6 @@ export default function GoogleMaps() {
 
     fetch({ input: inputValue }, (results?: PlaceType[]) => {
       if (active) {
-        console.log(results);
         setOptions(results || []);
       }
     });

@@ -30,6 +30,7 @@ const LoginPage = (props: AllProps) => {
   const [initialFormValues, setInitialFormValues] = React.useState(DEFAULT_FORM_VALUES);
 
   React.useEffect(() => {
+    // TODO to be removed later
     const payload = {
       email: 'events@events.com',
       password: 'events123',

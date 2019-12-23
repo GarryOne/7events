@@ -9,7 +9,6 @@ const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 function* loginSaga({ payload }: any) {
   try {
     const data = yield call(rsf.auth.signInWithEmailAndPassword, payload.email, payload.password);
-    console.log(data);
     yield put(loginSuccess(data));
   }
   catch(error) {
@@ -20,7 +19,6 @@ function* loginSaga({ payload }: any) {
 function* loginGoogleSaga() {
   try {
     const data = yield call(rsf.auth.signInWithPopup, googleAuthProvider);
-    console.log(data);
     yield put(loginSuccess(data));
   }
   catch(error) {
