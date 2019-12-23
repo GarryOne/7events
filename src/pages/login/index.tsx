@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase from 'firebase';
 import { connect } from "react-redux";
 import { ApplicationState } from "../../store";
 import { authRequest, googleAuthRequest } from "../../store/auth/actions";
@@ -51,6 +50,7 @@ const LoginPage = (props: AllProps) => {
   const onSubmit = () => {
     console.log('submit');
   };
+
   return (
     <Container style={ {marginTop: '5%', height: '100%'} }>
         <Formik

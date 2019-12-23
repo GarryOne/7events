@@ -314,9 +314,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
     },
     formControl: {
-      // margin: theme.spacing(1),
       width: '100%',
-      // float: 'left',
     },
     chip: {
       margin: 2,

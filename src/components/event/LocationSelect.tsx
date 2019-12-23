@@ -86,7 +86,6 @@ export default function GoogleMaps() {
     let active = true;
 
     if (!autocompleteService.current && (window as any).google) {
-      initMap();
       autocompleteService.current = new (window as any).google.maps.places.AutocompleteService();
     }
     if (!autocompleteService.current) {
@@ -154,7 +153,7 @@ export default function GoogleMaps() {
             );
           }}
         />
-       <div id='map' style={ {width: '100%', height: '200px'} }></div>
+       {/*<div id='map' style={ {width: '100%', height: '200px'} }></div>*/}
       </>
   );
 }

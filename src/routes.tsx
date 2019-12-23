@@ -6,6 +6,7 @@ import Root from './components/layout/Root'
 import Header from './components/layout/Header'
 import IndexPage from './pages/index'
 import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 import DashboardPage from './pages/dashboard'
 import TeamsPage from './pages/teams'
 import EventsPage from './pages/events'
@@ -30,6 +31,7 @@ const Routes: React.SFC = () => (
     <Switch>
       <Route exact path="/" component={IndexPage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/teams" component={TeamsPage} />
       <Route path="/events" component={EventsPage} />
