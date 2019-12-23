@@ -86,7 +86,6 @@ const CreateEventPage = (props: AllProps) => {
 
   const createEvent = (values: any): Event => {
     return {
-      id: '',
       name: values.name,
       creator: 'admin',
       date: {
@@ -131,12 +130,14 @@ const CreateEventPage = (props: AllProps) => {
                     className={classes.form}
                     onSubmit={handleSubmit}
                   >
+
                     <Grid container spacing={3}>
                       <Grid item md={12} sm={12} xs={12}>
 
                         <ImageUpload onChange={getUploadedImage} imagesFolder='events-profile-images'/>
 
                       </Grid>
+
                       <Grid item md={6} sm={6} xs={12}>
                         <FormControl className={classes.formControl}>
                           <TextField
@@ -149,6 +150,14 @@ const CreateEventPage = (props: AllProps) => {
                             onChange={handleChange}
                             name='name'
                           />
+                        </FormControl>
+                      </Grid>
+
+                      <Grid item md={6} sm={6} xs={12}>
+                        <FormControl className={classes.formControl}>
+
+                          <GoogleMap/>
+
                         </FormControl>
                       </Grid>
 
@@ -195,14 +204,6 @@ const CreateEventPage = (props: AllProps) => {
                             <option value='private'>Private</option>
                             <option value='secret'>Secret</option>
                           </Select>
-                        </FormControl>
-                      </Grid>
-
-                      <Grid item md={6} sm={6} xs={12}>
-                        <FormControl className={classes.formControl}>
-
-                          {/*<GoogleMap/>*/}
-
                         </FormControl>
                       </Grid>
 

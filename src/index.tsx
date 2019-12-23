@@ -2,9 +2,9 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { createBrowserHistory } from 'history'
 
-import Main from './main'
 import * as serviceWorker from './serviceWorker'
 import configureStore from './configureStore'
+import Main from './main'
 
 import 'typeface-ibm-plex-sans'
 
@@ -13,7 +13,7 @@ import 'typeface-ibm-plex-sans'
 const history = createBrowserHistory()
 
 const initialState = window.INITIAL_REDUX_STATE
-const store = configureStore(history, initialState)
+const store = configureStore(history, initialState);
 
 
 ReactDOM.render(

@@ -5,7 +5,7 @@ import { syncCollection, getEvent } from './actions'
 import rsf from '../../firebase/firebase';
 
 
-function* syncEvents () {
+function* syncEventsCollection () {
   yield fork( rsf.firestore.syncCollection, 'events',
     {
       successActionCreator: (data: any )=> {
@@ -25,17 +25,8 @@ function* createEvent(data: any): any {
   yield call(rsf.firestore.addDocument, 'events', { ...data.payload,  });
 }
 
-
-// TODO: not working well
-function* fetchEvent(data: any): any {
-  const snapshot = yield call(rsf.firestore.getDocument, `events/${data.payload}`);
-  const event = snapshot.data();
-  console.log(event);
-  yield put(getEvent(event));
-}
-
 function* watchSyncCollection() {
-  yield takeEvery(EventsActionTypes.FETCH_REQUEST, syncEvents)
+  yield takeLatest(EventsActionTypes.FETCH_REQUEST, syncEventsCollection)
 }
 
 function* watchAddEvent() {
